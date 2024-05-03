@@ -1,3 +1,4 @@
+#importig requried package
 import json
 
 class Employee:
@@ -7,12 +8,10 @@ class Employee:
         self.id = id
         self.title = title
         self.department = department      
-    
-    
+        
     def display(self):
         '''showing employee full detail'''
         print(f"Name: {self.name} \nID: {self.id} \nTitle: {self.title} \nDepartment: {self.department}")
-    
     
     def __str__(self):
         '''string method for employee'''
@@ -26,15 +25,19 @@ class Department:
         self.employee = []
         
     def add_emp(self, emp):
+        '''adding employee to list'''
         self.employee.append(emp)
 
     def del_emp(self, emp):
+        '''removing employee from list'''
         self.employee.remove(emp)
 
     def all_emp(self):
+        '''displaying all employee'''
         print("List Of employees")
         for e in self.employee:
-            print(e)            
+            print(e)
+            
             
 class Company:
     '''Company management'''
@@ -42,24 +45,45 @@ class Company:
         self.departments = {}
         
     def add_dep(self, dep_name):
+        '''adding departments'''
         self.departments[dep_name] = Department(dep_name)
 
     def del_dep(self, dep_name):
+        '''deleting departments'''
         if dep_name in self.departments:
             del self.departments[dep_name]
             print(f'Department "{dep_name}" is deleted.')
 
     def all_dep(self):
+        '''displaying all departments'''
         print("List Of Department")
         print(self.departments)
         
 def save_data(company):
-    with open("company_data.json","w") as file:
+    '''saving data in file'''
+    with open("company_data.json","w", encoding= "utf-8") as file:
         json.dump(company, file, default= lambda obj: obj.__dict__)
-        
+
+def read_data():
+    '''Reading file data for reload'''
+    try:
+        with open("company_data.json", "r", encoding= "utf-8") as file:
+            data = json.load(file) #converting to dictionary
+            company = Company()
+            for department_name, department_data in data["departments"].items():
+                department = Department(department_name)  #creating department object
+                for employee_data in department_data["employee"]:
+                    employee = Employee(**employee_data)  #craeting emaployee
+                    department.add_emp(employee)
+                company.departments[department_name] = department
+            return company
+    except FileNotFoundError:
+        return Company()
+    
 def menu():
-    print("1. Add Employee")     
-    print("2. Remove Employee")     
+    '''Creating user friendly menu'''
+    print("1. Add Employee")
+    print("2. Remove Employee")
     print("3. Display Department")
     print("4. Add Department")
     print("5. Remove Department")
@@ -67,10 +91,11 @@ def menu():
     print("7. Exit....!")
     
 def main():
-    company = Company()
-
+    '''Entry point for user and control all functions'''
+    company = read_data()
+    print(company.all_dep())
     while True:
-        menu()        
+        menu()
         user_input = input("Enter Your Choice: ")
         if user_input == '1':
             name = input("Enter Employee Name: ")
@@ -105,7 +130,7 @@ def main():
             if dep in company.departments:
                 company.departments[dep].all_emp()
             else:
-                print("No such department exits..")            
+                print("No such department exits..")
         elif user_input == "4":
             dep = input("Enter department name: ")
             company.add_dep(dep)
