@@ -51,17 +51,19 @@ class Company:
         print("List Of Department")
         print(self.departments)
         
+def menu():
+    print("1. Add Employee")     
+    print("2. Remove Employee")     
+    print("3. Display Department")
+    print("4. Add Department")
+    print("5. Remove Department")
+    print("6. Display Department")
+
 def main():
     company = Company()
 
     while True:
-        print("1. Add Employee")     
-        print("2. Remove Employee")     
-        print("3. Display Department")
-        print("4. Add Department")
-        print("5. Remove Department")
-        print("6. Display Department")
-        
+        menu()        
         user_input = input("Enter Your Choice: ")
         if user_input == '1':
             Name = input("Enter Employee Name: ")
