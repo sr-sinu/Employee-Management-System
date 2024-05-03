@@ -51,23 +51,16 @@ class Company:
         print("List Of Department")
         print(self.departments)
         
-        
 def main():
     company = Company()
-    company.all_dep()
-    emp1 = Employee("Shri", 1, "Gym", "Mech")
-    print(str(emp1))
-    dep1 = Department("Mech")
-    company.all_dep()
-    dep1.add_emp(emp1)
-    dep1.all_emp()
-    company.add_dep("Mech")
-    company.all_dep()
 
     while True:
         print("1. Add Employee")     
         print("2. Remove Employee")     
-        print("3. Display Department")  
+        print("3. Display Department")
+        print("4. Add Department")
+        print("5. Remove Department")
+        print("6. Display Department")
         
         user_input = input("Enter Your Choice: ")
         if user_input == '1':
@@ -87,7 +80,6 @@ def main():
             if dep in company.departments:
                 company.departments[dep].all_emp()
                 id = input("Enter employee ID: ")
-                
                 print(company.departments[dep].employee)
                 print("Enter in loop")
                 for emp in company.departments[dep].employee:
@@ -99,18 +91,26 @@ def main():
                         print("Employee does not exits.....!")
             else:
                 print("Department does not exits....!")
+        elif user_input == "3":
+            dep = input("Enter Department Name: ")
+            if dep in company.departments:
+                company.departments[dep].all_emp()
+            else:
+                print("No such department exits..")            
+        elif user_input == "4":
+            dep = input("Enter department name: ")
+            company.add_dep(dep)
+            print("Department succcessfully added....")
+        elif user_input == "5":
+            dep = input("Enter Department Name: ")
+            if dep in company.departments:
+                company.del_dep(dep)
+                print("Departent successfully deleted")
+            print("Department not exits.....!")
+        elif user_input == "6":
+            company.all_dep()
         else:
-            print("Inavalid choice....")                    
+            print("Inavalid choice....")
 
 if __name__=="__main__":
-
-    # emp1 = Employee("Shri", 1, "Gym", "Mech")
-    # emp2 = Employee("Abhay", 2, "Support", "Bsc")  
-    # dep1=Department("Mech")
-    # dep1.add_emp(emp1)
-    # dep1.add_emp(emp2)
-    # dep1.all_emp()
-    # company= Company()
-    # company.add_dep('Mech')
-    # company.all_dep()
     main()
