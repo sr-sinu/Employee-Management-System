@@ -1,3 +1,5 @@
+import json
+
 class Employee:
     '''Employee class for employee details'''
     def __init__(self, name, id, title, department):
@@ -51,6 +53,10 @@ class Company:
         print("List Of Department")
         print(self.departments)
         
+def save_data(company):
+    with open("company_data.json","w") as file:
+        json.dump(company, file, default= lambda obj: obj.__dict__)
+        
 def menu():
     print("1. Add Employee")     
     print("2. Remove Employee")     
@@ -58,7 +64,8 @@ def menu():
     print("4. Add Department")
     print("5. Remove Department")
     print("6. Display Department")
-
+    print("7. Exit....!")
+    
 def main():
     company = Company()
 
@@ -66,11 +73,11 @@ def main():
         menu()        
         user_input = input("Enter Your Choice: ")
         if user_input == '1':
-            Name = input("Enter Employee Name: ")
-            ID = input("Enter Employee ID: ")
-            Title = input("Enter Employee Title: ")
+            name = input("Enter Employee Name: ")
+            id = input("Enter Employee ID: ")
+            title = input("Enter Employee Title: ")
             department = input("Enter Employee Department: ")
-            emp = Employee(Name, ID, Title, department)
+            emp = Employee(name, id, title, department)
             company.all_dep()
             if department in company.departments:
                 company.departments[department].add_emp(emp)
@@ -111,6 +118,10 @@ def main():
             print("Department not exits.....!")
         elif user_input == "6":
             company.all_dep()
+        elif user_input == "7":
+            save_data(company)
+            print("Bye...")
+            break
         else:
             print("Inavalid choice....")
 
